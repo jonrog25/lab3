@@ -23,47 +23,40 @@
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo"><i class="material-icons left">school</i>Homework Manager</a>
+                <a href="/" class="brand-logo"><i class="material-icons left">school</i>Grocery Helper</a>
                 <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul id="desktop-nav" class="right hide-on-med-and-down">
                     <li><a href="/"><i class="material-icons left">home</i> Home</a></li>
-                    <li><a href="assignments"><i class="material-icons left">list</i> Assignments</a></li>
-                </ul>
+                    <li><a href="/assignments"><i class="material-icons left">list</i> Food List</a></li>                </ul>
             </div>
         </nav>
-        <ul id="mobile-nav" class="sidenav">
+        <!-- <ul id="mobile-nav" class="sidenav">
             <li><a href="/"><i class="material-icons left">home</i> Home</a></li>
             <li><a href="assignments"><i class="material-icons left">list</i> Assignments</a></li>
-        </ul>
+        </ul> -->
     </header>
     
     <!-- Actual page content! -->
     <div class="container">
         <div class="section flow-text" id="details">
-            <h1>Groceries!</h1>
+            <h1><%= food.food_name %></h1>
             <table>
                 <tr>
                     <th>Food Name:</th>
-                    <td>Bundle of Grapes</td>
+                    <td><%= food.food_name %></td>
                 </tr>
                 <tr>
                     <th>Amount:</th>
-                    <td>3</td>
+                    <td><%= food.food_amt%></td>
                 </tr>
                 <tr>
                     <th>Store:</th>
-                    <td>Stop and Shop</td>
-                </tr>
-                <tr>
-                    <th>Get By</th>
-                    <td>
-                        04/02/2023
-                    </td>
+                    <td><%= food.store_name%></td>
                 </tr>
                 <tr>
                     <th>Description</th>
                      <td>
-                        You need to buy those grapes!!!!
+                        <%= food.food_desc%>
                     </td>
                     
                 </tr>
@@ -75,7 +68,7 @@
                 <i class="material-icons right">edit</i>
                 Edit
             </a>
-            <a class="btn-large waves-effect waves-light red right">
+            <a class="btn-large waves-effect waves-light red right" href = "/assignments/<%= food.food_id %>">
                 <i class="material-icons right">delete</i>
                 Delete
             </a>
@@ -87,39 +80,41 @@
             <div class="modal-content">
 
                 <h2>Edit item:</h2>
-                <form id="updateForm">
+                <form id="updateForm" method = "post" action = "/assignments/<%= food.food_id %>" >
                     <div class="row">
                         <div class="input-field col s8">
-                            <input type="text" id="titleInput" name="title" class="validate" data-length="45" required value="Textbook Assignment">
-                            <label for="titleInput">Food Item:</label>
+                            <input type="text" id="foodInput" name="food_name" class="validate" data-length="45" required>
+                            <label for="foodInput">Food Name</label>
+                        </div>
+                        <div class="input-field col s8">
+                            <input type="text" id="foodDesct" name="food_desc" class="validate" data-length="45" required>
+                            <label for="foodDesct">Food Description</label>
                         </div>
                         <div class="input-field col s4">
-                            <input type="number" id="priorityInput" name="priority" class="validate" min=1 max=10 value=2>
-                            <label for="priorityInput">Amount:</label>
+                            <input type="number" id="foodAmt" name="food_amt" class="validate" min=0 max=100 required>
+                            <label for="foodAmt">Amount</label>
+    
                         </div>
     
-                        <div class="input-field col s6">
-                            <select type="number" id="storeInput" name="store">
-                                <option value="" disabled>Choose your store</option>
-                                <option value=1>Stop and Shop</option>
-                                <option value=2 selected>Shoprite</option>
-                                <option value=3>Farmers Market</option>
-        
-                              </select>
-                              <label for="subjectInput">Store:</label>
+                         <div class="input-field col s6">
+                            <select tpye = "number" id="store_name" name="store" required>
+                                <option value="" disabled selected>Choose your store</option>
+                                <option value=1   <% if (food.food_id == 1) { %> selected <% } %>> Trader Joes </option>
+                                <option value=2   <% if (food.food_id == 2) { %> selected <% } %>> Shoprite </option>
+                                <option value=3   <% if (food.food_id == 3) { %> selected <% } %>> Krogers </option>
+                                <option value=4   <% if (food.food_id == 4) { %> selected <% } %>> Stop and Shop </option>
+                                <option value=5   <% if (food.food_id == 5) { %> selected <% } %>> Wegmans </option>
+                            </select>
+                            <label for="store_name">Store:</label>
                         </div>
+                       
     
-                        <div class="input-field col s6">
-                            <input type="date" id="getByInput" name="getByDate" value="2023-05-26">  <!-- Note that the date value format is "yyyy-mm-dd" -->
-                            <label for="getByInput">Get By:</label>
-                        </div>
-
-                        <div class="input-field col s12">
-                            <textarea class="materialize-textarea" id="descriptionInput" name="description" data-length="150">You need to buy those grapes!!!!</textarea>
-                            <label for="descriptionInput">Detailed Description:</label>
-                        </div>
-    
+                    
                     </div>
+                    <button class="btn waves-effect waves-light" type="submit">
+                        <i class="material-icons right">send</i>
+                        Submit
+                    </button>
                 </form>
                 <!-- A section for the footer of the modal -->
                 <div class="modal-footer">
